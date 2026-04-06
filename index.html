@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZynoxHunter - Panel Resmi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a23 0%, #1a1a3e 30%, #16213e 70%, #0f0f2a 100%);
+            color: #e8e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            animation: bgShift 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgShift {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(1deg); }
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00d4ff 0%, #7b2cbf 35%, #ff0080 70%, #ff6b35 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            letter-spacing: -2px;
+            text-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #ff0080);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+        }
+
+        .logo:hover {
+            transform: scale(1.05) rotate(2deg);
+            filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.7));
+        }
+
+        .status-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+        }
+
+        .status-online {
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid rgba(34, 197, 94, 0.6);
+            color: #22c55e;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+        }
+
+        .status-offline {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid rgba(239, 68, 68, 0.6);
+            color: #ef4444;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .card {
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(25px);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(100, 100, 180, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 212, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 30px 80px rgba(0, 212, 255, 0.2), 0 0 40px rgba(0, 212, 255, 0.15);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 50%, #ff0080 100%);
+            border: none;
+            padding: 16px 28px;
+            border-radius: 16px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            width: 100%;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 12px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e, #ffa500);
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, #6b7280, #9ca3af);
+            font-size: 0.95rem;
+            padding: 12px 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #00d4ff;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid rgba(100, 100, 180, 0.5);
+            border-radius: 16px;
+            background: rgba(25, 25, 50, 0.9);
+            color: #e8e8f0;
+            font-size: 1rem;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            font-family: inherit;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.25);
+            background: rgba(35, 35, 65, 1);
+            transform: translateY(-2px);
+        }
+
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: rgba(200, 200, 240, 0.6);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: rgba(40, 40, 70, 0.8);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #00d4ff;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .chat-container {
+            height: 320px;
+            overflow-y: auto;
+            border: 2px solid rgba(100, 100, 180, 0.4);
+            border-radius: 16px;
+            padding: 20px;
+            background: rgba(25, 25, 50, 0.9);
+            margin-bottom: 20px;
+            scrollbar-width: thin;
+        }
+
+        .chat-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background: rgba(50, 50, 80, 0.5);
+            border-radius: 10px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(#00d4ff, #7b2cbf);
+            border-radius: 10px;
+        }
+
+        .chat-message {
+            margin-bottom: 16px;
+            padding: 16px 20px;
+            border-radius: 20px;
+            max-width: 90%;
+            animation: messageSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            word-wrap: break-word;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .chat-message.user {
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            color: #fff;
+            margin-left: auto;
+            border-bottom-right-radius: 6px;
+        }
+
+        .chat-message.ai {
+            background: rgba(100, 100, 180, 0.4);
+            color: #e8e8f0;
+            border-left: 4px solid #00d4ff;
+            border-bottom-left-radius: 6px;
+        }
+
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .admin-panel {
+            display: none;
+            animation: panelSlide 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        @keyframes panelSlide {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ticket-list, .user-list, .report-list, .update-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .ticket-item, .user-item, .report-item, .update-item {
+            background: rgba(60, 60, 100, 0.7);
+            padding: 18px;
+            margin-bottom: 12px;
+            border-radius: 16px;
+            border-left: 4px solid #00d4ff;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .ticket-item:hover, .user-item:hover, .report-item:hover, .update-item:hover {
+            background: rgba(80, 80, 130, 0.9);
+            transform: translateX(8px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.2);
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .list-count {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .hidden { display: none; }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+        }
+
+        h2 {
+            color: #00d4ff;
+            text-align: center;
+            margin-bottom: 28px;
+            font-size: 1.6rem;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #ff0080);
+            border-radius: 2px;
+        }
+
+        .update-item {
+            border-left-color: #22c55e;
+        }
+
+        .update-content {
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 12px;
+            border-left: 4px solid #22c55e;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 15px; max-width: 100%; }
+            .logo { font-size: 2rem; }
+            .card { padding: 25px; margin-bottom: 18px; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <button class="logout-btn hidden" id="logoutBtn" onclick="logout()">🚪 Logout</button>
+    
+    <div class="status-indicator" id="statusIndicator">ONLINE</div>
+
+    <div class="container">
+        <!-- Halaman Register (Default) -->
+        <div id="registerPage">
+            <div class="card">
+                <h2>Buat Akun</h2>
+                <form id="authForm">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="username" placeholder="Username anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" placeholder="Password aman" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tanggal Lahir</label>
+                        <input type="date" id="birthdate" required>
+                    </div>
+                    <button type="submit" class="btn">Daftar / Masuk</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Halaman Dashboard -->
+        <div id="dashboardPage" class="hidden">
+            <div class="header">
+                <div class="logo" id="logo" onclick="adminClick()">ZynoxHunter</div>
+            </div>
+            
+            <div id="dashboard" class="card">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+<div class="stat-card">
+                        <div class="stat-number" id="totalTickets">0</div>
+                        <div style="color:#888;font-size:0.9rem;">Tiket Banding</div>
+                    </div>
+                </div>
+                <button class="btn" onclick="showSection('account')">📊 Data Akun</button>
+                <button class="btn" onclick="showSection('appeal')">🎫 Aju Banding</button>
+                <button class="btn" onclick="showSection('report')">📢 Report/Keluhan</button>
+                <button class="btn" onclick="showSection('games')">🎮 Game Hamka</button>
+                <button class="btn" onclick="showSection('infoUpdate')">🆕 Info Update</button>
+                <button class="btn" onclick="showSection('chat')" id="chatBtn">
+                    💬 Ngobrol <span id="onlineStatus"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Account Data -->
+        <div id="accountSection" class="hidden">
+            <div class="card">
+                <h2>Data Akun</h2>
+                <div id="accountInfo"></div>
+                <button class="btn btn-back" onclick="showDashboard()">← Kembali ke Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Info Update Section (BARU) -->
+        <div id="infoUpdateSection" class="hidden">
+            <div class="card">
+                <h2>🆕 Info Update</h2>
+                <div id="infoUpdateContent"></div>
+                <button class="btn btn-back" onclick="showDashboard()">← Kembali ke Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Appeal Section -->
+        <div id="appealSection" class="hidden">
+            <div class="card">
+                <h2>Aju Banding</h2>
+                <form id="appealForm">
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="nama" placeholder="Nama lengkap" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kelas</label>
+                        <input type="text" id="kelas" placeholder="XII IPA 1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Alasan Dibanned</label>
+                        <textarea id="alasanBan" rows="3" placeholder="Kenapa dibanned?" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Alasan Unban</label>
+                        <textarea id="alasanBuka" rows="3" placeholder="Kenapa mau dibuka ban?" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Janji?</label>
+                        <select id="janji" required>
+                            <option value="">Pilih...</option>
+                            <option value="Ya">Ya, janji!</option>
+                            <option value="Tidak">Tidak</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Kirim Tiket</button>
+                </form>
+                <div id="appealChat" class="chat-container hidden"></div>
+                <button class="btn btn-back hidden" id="backToAppeal" onclick="showAppealForm()">← Form Baru</button>
+                <button class="btn btn-back hidden" onclick="showDashboard()">← Kembali ke Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Report Section -->
+        <div id="reportSection" class="hidden">
+            <div class="card">
+                <h2>📢 Report/Keluhan</h2>
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label>Jenis Laporan</label>
+                        <select id="reportType" required>
+                            <option value="">Pilih jenis...</option>
+                            <option value="bug">Bug/Error</option>
+                            <option value="user">Report User</option>
+                            <option value="keluhan">Keluhan</option>
+                            <option value="saran">Saran</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Username Pelaku (jika ada)</label>
+                        <input type="text" id="targetUser" placeholder="Username yang dilaporkan">
+                    </div>
+                    <div class="form-group">
+                        <label>Deskripsi</label>
+                        <textarea id="reportDesc" rows="4" placeholder="Jelaskan masalahnya secara detail..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Kirim Report</button>
+                </form>
+                <div id="reportChat" class="chat-container hidden"></div>
+                <button class="btn btn-back" onclick="showDashboard()">← Kembali ke Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Games Section -->
+        <div id="gamesSection" class="hidden">
+            <div class="card">
+                <h2>Game Hamka</h2>
+                <div class="game-links">
+                    <a href="https://hamka223455-svg.github.io/Trading-hamka/" target="_blank" class="game-link">💰 Trading Hamka</a>
+                    <a href="https://hamka223455-svg.github.io/Game-taruhan-hamka/" target="_blank" class="game-link">🎲 Taruhan Hamka</a>
+                    <a href="https://hamka223455-svg.github.io/Slot-Hamka22/" target="_blank" class="game-link">🎰 Slot Hamka</a>
+                </div>
+                <button class="btn btn-back" onclick="showDashboard()">← Kembali ke Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Chat Section -->
+        <div id="chatSection" class="hidden">
+            <div class="card">
+                <h2>Ngobrol</h2>
+                <div id="chatMessages" class="chat-container"></div>
+                <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                    <input type="text" id="chatInput" placeholder="Ketik pesan..." style="flex: 1;">
+                    <button class="btn" onclick="sendChatMessage()" style="width: auto; padding: 16px 24px;">Kirim</button>
+                </div>
+                <button class="btn btn-back" onclick="showDashboard()">← Kembali ke Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Admin Panel (Ditambahkan tombol Info Update) -->
+        <div id="adminPanel" class="admin-panel">
+            <div class="card">
+                <h2>🔧 Admin Panel</h2>
+                <button class="btn" onclick="showAdminTickets()">📋 Tiket Banding</button>
+                <button class="btn" onclick="showAdminUsers()">👥 Pengguna</button>
+                <button class="btn" onclick="showAdminReports()">📢 Report</button>
+                <button class="btn" onclick="showAdminUpdates()">🆕 Info Update</button>
+                <button class="btn" onclick="showAdminStats()">📊 Statistik</button>
+                <button class="btn btn-secondary" onclick="hideAdminPanel()">❌ Tutup Panel</button>
+            </div>
+            
+            <div id="adminTickets" class="card hidden">
+                <h2>Tiket Banding</h2>
+                <div class="list-header">
+                    <span>Tiket Aktif</span>
+                    <span class="list-count" id="ticketCount">0</span>
+                </div>
+                <div id="ticketList" class="ticket-list"></div>
+            </div>
+            
+            <div id="adminUsers" class="card hidden">
+                <h2>Data Pengguna</h2>
+                <div class="list-header">
+                    <span>Semua Pengguna</span>
+                    <span class="list-count" id="userCount">0</span>
+                </div>
+                <div id="userList" class="user-list"></div>
+            </div>
+            
+            <div id="adminReports" class="card hidden">
+                <h2>Report & Keluhan</h2>
+                <div class="list-header">
+                    <span>Laporan Aktif</span>
+                    <span class="list-count" id="reportCount">0</span>
+                </div>
+                <div id="reportList" class="report-list"></div>
+            </div>
+            
+            <!-- Admin Info Update Section (BARU) -->
+            <div id="adminUpdates" class="card hidden">
+                <h2>🆕 Kelola Info Update</h2>
+                <div class="list-header">
+                    <span>Total Update</span>
+                    <span class="list-count" id="updateCount">0</span>
+                </div>
+                <form id="updateForm">
+                    <div class="form-group">
+                        <label>Judul Update</label>
+                        <input type="text" id="updateTitle" placeholder="Contoh: Update v2.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Isi Update</label>
+                        <textarea id="updateContent" rows="4" placeholder="Tuliskan detail update..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn">📤 Tambah Update</button>
+                </form>
+                <div id="updateList" class="update-list"></div>
+            </div>
+            
+            <div id="adminStats" class="card hidden">
+                <h2>📊 Statistik Lengkap</h2>
+                <div id="statsContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let adminClicks = 0;
+        let appealSubmitted = false;
+        let reportSubmitted = false;
+        let currentSection = 'dashboard';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkOnlineStatus();
+            window.addEventListener('online', checkOnlineStatus);
+            window.addEventListener('offline', checkOnlineStatus);
+            
+            requestNotificationPermission();
+            loadUser();
+            updateDashboardStats();
+            updateStatusIndicator();
+            
+            setInterval(updateChatMessages, 3000);
+            setInterval(updateDashboardStats, 5000);
+            
+            // Load Info Update untuk user
+            loadInfoUpdates();
+            
+            // Event listener untuk admin update form
+            document.getElementById('updateForm').addEventListener('submit', handleUpdateForm);
+        });
+
+        // Online/Offline Status
+        function checkOnlineStatus() {
+            updateStatusIndicator();
+        }
+
+        function updateStatusIndicator() {
+            const indicator = document.getElementById('statusIndicator');
+            const isOnline = navigator.onLine;
+            
+            if (isOnline) {
+                indicator.textContent = '🟢 ONLINE';
+                indicator.className = 'status-indicator status-online';
+                document.getElementById('onlineStatus').textContent = '(●)';
+            } else {
+                indicator.textContent = '🔴 OFFLINE';
+                indicator.className = 'status-indicator status-offline';
+                document.getElementById('onlineStatus').textContent = '(✗)';
+            }
+        }
+
+        // Notifications
+        function requestNotificationPermission() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        }
+
+        function showNotification(title, body) {
+            if (Notification.permission === 'granted') {
+                new Notification(title, { 
+                    body: body,
+                    icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiMwMGQ0ZmYiLz4KPHRleHQgeD0iNTAlIiB5PSI1NSUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5aPC90ZXh0Pgo8L3N2Zz4K'
+                });
+            }
+        }
+
+        // Authentication - Ubah untuk SPA
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const birthdate = document.getElementById('birthdate').value;
+
+            let allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+            const existingUserIndex = allUsers.findIndex(u => u.username === username);
+            
+            const userData = {
+                username,
+                password,
+                birthdate,
+                joinDate: new Date().toISOString(),
+                id: Date.now()
+            };
+
+            if (existingUserIndex !== -1) {
+                const existingUser = allUsers[existingUserIndex];
+                if (existingUser.password === password) {
+                    currentUser = existingUser;
+                    localStorage.setItem('zynoxAccount', JSON.stringify(currentUser));
+                    showDashboardPage();
+                    showNotification('Login Sukses', `Welcome back ${username}!`);
+                } else {
+                    alert('❌ Username/password salah!');
+                }
+            } else {
+                allUsers.push(userData);
+                localStorage.setItem('allUsers', JSON.stringify(allUsers));
+                localStorage.setItem('zynoxAccount', JSON.stringify(userData));
+                currentUser = userData;
+                showDashboardPage();
+                showNotification('🎉 Akun Baru', `Selamat datang ${username}!`);
+            }
+        });
+
+        function loadUser() {
+            const account = localStorage.getItem('zynoxAccount');
+            if (account) {
+                currentUser = JSON.parse(account);
+                showDashboardPage();
+                document.getElementById('logoutBtn').classList.remove('hidden');
+            }
+        }
+
+        // SPA Navigation Functions
+        function showDashboardPage() {
+            document.getElementById('registerPage').classList.add('hidden');
+            document.getElementById('dashboardPage').classList.remove('hidden');
+            updateDashboardStats();
+        }
+
+        function showDashboard() {
+            hideAllSections();
+            document.getElementById('dashboard').classList.remove('hidden');
+            currentSection = 'dashboard';
+            updateDashboardStats();
+        }
+
+        function showSection(section) {
+            hideAllSections();
+            document.getElementById(`${section}Section`).classList.remove('hidden');
+            currentSection = section;
+            
+            if (section === 'account') showAccountInfo();
+            if (section === 'infoUpdate') loadInfoUpdates();
+        }
+
+        function hideAllSections() {
+            const sections = ['dashboard', 'accountSection', 'appealSection', 'reportSection', 'gamesSection', 'chatSection', 'infoUpdateSection'];
+            sections.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+
+        function showAccountInfo() {
+            const daysSinceJoin = Math.floor((new Date() - new Date(currentUser.joinDate)) / (1000 * 60 * 60 * 24));
+            document.getElementById('accountInfo').innerHTML = `
+                <div style="text-align:center;padding:30px 20px;background:rgba(0,212,255,0.1);border-radius:20px;border:2px solid rgba(0,212,255,0.3);">
+                    <h3 style="color:#00d4ff;font-size:1.4rem;margin-bottom:15px;">${currentUser.username}</h3>
+                    <p style="color:#888;margin-bottom:10px;"><strong>Lahir:</strong> ${new Date(currentUser.birthdate).toLocaleDateString('id-ID')}</p>
+                    <p style="color:#888;margin-bottom:10px;"><strong>Member sejak:</strong> ${daysSinceJoin} hari</p>
+                    <p style="color:#22c55e;font-weight:600;">✅ Akun Aktif</p>
+                </div>
+            `;
+        }
+
+        // INFO UPDATE FUNCTIONS (BARU)
+        function loadInfoUpdates() {
+            const updates = JSON.parse(localStorage.getItem('infoUpdates') || '[]');
+            let html = '';
+            
+            if (updates.length === 0) {
+                html = '<div style="text-align:center;color:#888;padding:40px 20px;">📭 Belum ada info update</div>';
+            } else {
+                updates.slice(-5).reverse().forEach(update => {
+                    const date = new Date(update.timestamp).toLocaleDateString('id-ID');
+                    html += `
+                        <div class="update-item">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                                <h3 style="color:#22c55e;font-size:1.1rem;margin:0;">${update.title}</h3>
+                                <span style="color:#888;font-size:0.85rem;">${date}</span>
+                            </div>
+                            <div class="update-content">
+                                ${update.content}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            document.getElementById('infoUpdateContent').innerHTML = html;
+        }
+
+        function handleUpdateForm(e) {
+            e.preventDefault();
+            const title = document.getElementById('updateTitle').value;
+            const content = document.getElementById('updateContent').value;
+            
+            const updateData = {
+                id: Date.now(),
+                title,
+                content,
+                timestamp: new Date().toISOString()
+            };
+            
+            let updates = JSON.parse(localStorage.getItem('infoUpdates') || '[]');
+            updates.unshift(updateData); // Tambah di awal (terbaru)
+            updates = updates.slice(0, 20); // Batasi 20 update terakhir
+            localStorage.setItem('infoUpdates', JSON.stringify(updates));
+            
+            document.getElementById('updateForm').reset();
+            loadAdminUpdates();
+            showNotification('✅ Update Ditambahkan', title);
+        }
+
+        function loadAdminUpdates() {
+            const updates = JSON.parse(localStorage.getItem('infoUpdates') || '[]');
+            document.getElementById('updateCount').textContent = `${updates.length}`;
+
+let html = updates.length ? '' : '<div style="text-align:center;color:#888;padding:40px 0;font-size:1.1rem;">Belum ada update</div>';
+            
+            updates.slice(0, 10).forEach(update => {
+                const date = new Date(update.timestamp).toLocaleDateString('id-ID');
+                html += `
+                    <div class="update-item">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <div>
+                                <strong style="color:#22c55e;">${update.title}</strong><br>
+                                <span style="color:#888;font-size:0.85rem;">${date}</span>
+                            </div>
+                            <div>
+                                <button class="btn btn-secondary" onclick="deleteUpdate(${update.id})" style="padding:8px 16px;font-size:0.8rem;width:auto;">🗑️ Hapus</button>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;padding:12px;background:rgba(255,255,255,0.05);border-radius:12px;font-size:0.88rem;color:#ccc;">
+                            ${update.content.substring(0, 100)}${update.content.length > 100 ? '...' : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('updateList').innerHTML = html;
+        }
+
+        function deleteUpdate(updateId) {
+            if (confirm('Yakin hapus update ini?')) {
+                let updates = JSON.parse(localStorage.getItem('infoUpdates') || '[]');
+                updates = updates.filter(u => u.id !== updateId);
+                localStorage.setItem('infoUpdates', JSON.stringify(updates));
+                loadAdminUpdates();
+                showNotification('Update Dihapus', 'Update berhasil dihapus');
+            }
+        }
+
+        // Dashboard Stats
+        function updateDashboardStats() {
+            const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+            const tickets = JSON.parse(localStorage.getItem('appealTickets') || '[]');
+            
+            document.getElementById('totalUsers').textContent = allUsers.length;
+            document.getElementById('totalTickets').textContent = tickets.length;
+        }
+
+        // Appeal System
+        document.getElementById('appealForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                id: Date.now(),
+                username: currentUser.username,
+                nama: document.getElementById('nama').value,
+                kelas: document.getElementById('kelas').value,
+                alasanBan: document.getElementById('alasanBan').value,
+                alasanBuka: document.getElementById('alasanBuka').value,
+                janji: document.getElementById('janji').value,
+                timestamp: new Date().toISOString(),
+                status: 'pending'
+            };
+
+            let tickets = JSON.parse(localStorage.getItem('appealTickets') || '[]');
+            tickets.push(formData);
+            localStorage.setItem('appealTickets', JSON.stringify(tickets));
+
+            appealSubmitted = true;
+            document.getElementById('appealForm').classList.add('hidden');
+            document.getElementById('appealChat').classList.remove('hidden');
+            document.getElementById('backToAppeal').classList.remove('hidden');
+            
+            const chatContainer = document.getElementById('appealChat');
+            chatContainer.innerHTML = `
+                <div class="chat-message user">✅ Tiket berhasil dikirim!</div>
+                <div class="chat-message ai">⏳ Menunggu verifikasi admin...</div>
+            `;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            showNotification('Tiket Dikirim', 'Aju banding anda sedang diproses');
+            this.reset();
+        });
+
+        function showAppealForm() {
+            document.getElementById('appealForm').classList.remove('hidden');
+            document.getElementById('appealChat').classList.add('hidden');
+            document.getElementById('backToAppeal').classList.add('hidden');
+            appealSubmitted = false;
+        }
+
+        // Report System
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                id: Date.now(),
+                username: currentUser.username,
+                type: document.getElementById('reportType').value,
+                targetUser: document.getElementById('targetUser').value,
+                description: document.getElementById('reportDesc').value,
+                timestamp: new Date().toISOString(),
+                status: 'pending'
+            };
+
+            let reports = JSON.parse(localStorage.getItem('userReports') || '[]');
+            reports.push(formData);
+            localStorage.setItem('userReports', JSON.stringify(reports));
+
+            reportSubmitted = true;
+            document.getElementById('reportForm').classList.add('hidden');
+            document.getElementById('reportChat').classList.remove('hidden');
+            
+            const chatContainer = document.getElementById('reportChat');
+            chatContainer.innerHTML = `
+                <div class="chat-message user">✅ Report berhasil dikirim!</div>
+                <div class="chat-message ai">⏳ Menunggu tanggapan admin...</div>
+            `;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            showNotification('Report Dikirim', 'Laporan anda sedang diproses');
+            this.reset();
+        });
+
+        // Chat System
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message || !navigator.onLine || !currentUser) return;
+
+            let chats = JSON.parse(localStorage.getItem('globalChat') || '[]');
+            chats.push({
+                username: currentUser.username,
+                message,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('globalChat', JSON.stringify(chats.slice(-100)));
+            input.value = '';
+            updateChatMessages();
+        }
+
+        function updateChatMessages() {
+            if (!currentUser || !navigator.onLine) return;
+            const chats = JSON.parse(localStorage.getItem('globalChat') || '[]');
+            let html = '';
+            chats.slice(-20).reverse().forEach(chat => {
+                const time = new Date(chat.timestamp).toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'});
+                const isMe = chat.username === currentUser?.username;
+                html += `
+                    <div class="chat-message ${isMe ? 'user' : 'ai'}">
+                        <div style="font-weight:700;font-size:0.95rem;">${chat.username}</div>
+                        <div style="margin-top:4px;font-size:0.85rem;opacity:0.7;">${time}</div>
+                        <div style="margin-top:8px;font-size:0.92rem;">${chat.message}</div>
+                    </div>
+                `;
+            });
+            document.getElementById('chatMessages').innerHTML = html;
+            document.getElementById('chatMessages').scrollTop = 0;
+        }
+
+        // Auto check appeal & report status
+        setInterval(() => {
+            if (appealSubmitted && currentUser) {
+                const tickets = JSON.parse(localStorage.getItem('appealTickets') || '[]');
+                const userTicket = tickets.find(t => t.username === currentUser.username && t.status !== 'pending');
+                if (userTicket && document.getElementById('appealChat')) {
+                    const chatContainer = document.getElementById('appealChat');
+                    const hasFinalMsg = Array.from(chatContainer.children).some(el => 
+                        el.textContent.includes('DI TERIMA') || el.textContent.includes('DI TOLAK')
+                    );
+                    if (!hasFinalMsg) {
+                        const message = userTicket.status === 'accepted' ? 
+                            '🎉 Selamat! Aju banding anda <strong>DI TERIMA</strong> ✅' : 
+                            '😔 Maaf, aju banding anda <strong>DI TOLAK</strong> ❌';
+                        chatContainer.innerHTML += `<div class="chat-message ai">${message}</div>`;
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                    }
+                }
+            }
+
+            if (reportSubmitted && currentUser) {
+                const reports = JSON.parse(localStorage.getItem('userReports') || '[]');
+                const userReport = reports.find(r => r.username === currentUser.username && r.status !== 'pending');
+                if (userReport && document.getElementById('reportChat')) {
+                    const chatContainer = document.getElementById('reportChat');
+                    const hasFinalMsg = Array.from(chatContainer.children).some(el => 
+                        el.textContent.includes('TERPROSES') || el.textContent.includes('DITOLAK')
+                    );
+                    if (!hasFinalMsg) {
+                        const message = userReport.status === 'processed' ? 
+                            '✅ Report anda <strong>TERPROSES</strong> oleh admin!' : 
+                            '❌ Report anda <strong>DITOLAK</strong>';
+                        chatContainer.innerHTML += `<div class="chat-message ai">${message}</div>`;
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                    }
+                }
+            }
+        }, 3000);
+
+        // Logout Function
+        function logout() {
+            if (confirm('Yakin logout?')) {
+                localStorage.removeItem('zynoxAccount');
+                currentUser = null;
+                document.getElementById('registerPage').classList.remove('hidden');
+                document.getElementById('dashboardPage').classList.add('hidden');
+                document.getElementById('logoutBtn').classList.add('hidden');
+                hideAllSections();
+                document.getElementById('adminPanel').classList.remove('active');
+                showNotification('Logout', 'Anda telah logout');
+            }
+        }
+
+        // Admin Panel Access (Click logo 5x)
+        function adminClick() {
+            adminClicks++;
+            if (adminClicks >= 5) {
+                document.getElementById('adminPanel').classList.add('active');
+                adminClicks = 0;
+                showNotification('🔧 Admin', 'Panel admin diakses');
+            }
+        }
+
+        // Admin Functions
+        function showAdminTickets() {
+            hideAdminSections();
+            document.getElementById('adminTickets').classList.remove('hidden');
+            loadTickets();
+        }
+
+        function showAdminUsers() {
+            hideAdminSections();
+            document.getElementById('adminUsers').classList.remove('hidden');
+            loadUsers();
+        }
+
+        function showAdminReports() {
+            hideAdminSections();
+            document.getElementById('adminReports').classList.remove('hidden');
+            loadReports();
+        }
+
+        function showAdminUpdates() {
+            hideAdminSections();
+            document.getElementById('adminUpdates').classList.remove('hidden');
+            loadAdminUpdates();
+        }
+
+        function showAdminStats() {
+            hideAdminSections();
+            document.getElementById('adminStats').classList.remove('hidden');
+            loadStats();
+        }
+
+        function hideAdminSections() {
+            const adminSections = ['adminTickets', 'adminUsers', 'adminReports', 'adminStats', 'adminUpdates'];
+            adminSections.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+
+        function hideAdminPanel() {
+            document.getElementById('adminPanel').classList.remove('active');
+        }
+
+        function loadTickets() {
+            const tickets = JSON.parse(localStorage.getItem('appealTickets') || '[]');
+            document.getElementById('ticketCount').textContent = `${tickets.length}`;
+            
+            let html = tickets.length ? '' : '<div style="text-align:center;color:#888;padding:40px 0;font-size:1.1rem;">Belum ada tiket</div>';
+            
+            tickets.forEach(ticket => {
+                const statusColor = ticket.status === 'accepted' ? '#22c55e' : 
+                                  ticket.status === 'rejected' ? '#ef4444' : '#f59e0b';
+                html += `
+                    <div class="ticket-item">
+                        <div style="display:flex;justify-content:space-between;align-items:start;">
+                            <div>
+                                <strong style="color:#00d4ff;">${ticket.nama}</strong> 
+                                <span style="color:#888;font-size:0.9rem">(${ticket.kelas})</span><br>
+                                <span style="color:#888;font-size:0.85rem">${new Date(ticket.timestamp).toLocaleString('id-ID')}</span>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="color:${statusColor};font-weight:700;font-size:0.95rem;padding:4px 12px;background:rgba(255,255,255,0.1);border-radius:12px;">${ticket.status?.toUpperCase()}</div>
+                            </div>
+                        </div>
+                        ${ticket.status === 'pending' ? `
+                            <div style="margin-top:16px;gap:10px;display:flex;flex-wrap:wrap;">
+                                <button class="btn" onclick="processTicket(${ticket.id},'accepted')" style="padding:12px 18px;font-size:0.9rem;flex:1;min-width:90px;">✅ Terima</button>
+                                <button class="btn btn-secondary" onclick="processTicket(${ticket.id},'rejected')" style="padding:12px 18px;font-size:0.9rem;flex:1;min-width:90px;">❌ Tolak</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            document.getElementById('ticketList').innerHTML = html;
+        }
+
+        function loadUsers() {
+            const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+            document.getElementById('userCount').textContent = `${allUsers.length}`;
+            
+            let html = allUsers.length ? '' : '<div style="text-align:center;color:#888;padding:40px 0;font-size:1.1rem;">Belum ada pengguna</div>';
+            
+            allUsers.forEach(user => {
+                const daysSinceJoin = Math.floor((new Date() - new Date(user.joinDate)) / (1000 * 60 * 60 * 24));
+                html += `
+                    <div class="user-item">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <div>
+                                <strong style="color:#00d4ff;">${user.username}</strong><br>
+                                <span style="color:#888;font-size:0.9rem">
+                                    Lahir: ${new Date(user.birthdate).toLocaleDateString('id-ID')} | 
+                                    Join: ${daysSinceJoin} hari lalu
+                                </span>
+                            </div>
+                            <div style="text-align:right;">
+                                <button class="btn btn-secondary" onclick="deleteUser('${user.username}')" style="padding:8px 16px;font-size:0.85rem;width:auto;">🗑️ Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('userList').innerHTML = html;
+        }
+
+        function loadReports() {
+            const reports = JSON.parse(localStorage.getItem('userReports') || '[]');
+            document.getElementById('reportCount').textContent = `${reports.length}`;
+            
+            let html = reports.length ? '' : '<div style="text-align:center;color:#888;padding:40px 0;font-size:1.1rem;">Belum ada report</div>';
+            
+            reports.forEach(report => {
+                const statusColor = report.status === 'processed' ? '#22c55e' : 
+                                  report.status === 'rejected' ? '#ef4444' : '#f59e0b';
+                const typeIcon = report.type === 'bug' ? '🐛' : report.type === 'user' ? '👤' : report.type === 'keluhan' ? '😩' : '💡';
+                html += `
+                    <div class="report-item">
+                        <div style="display:flex;justify-content:space-between;align-items:start;">
+                            <div>
+                                <strong style="color:#00d4ff;">${typeIcon} ${report.type.toUpperCase()}</strong><br>
+                                <span style="color:#888;font-size:0.9rem;">${report.username}</span>
+                                ${report.targetUser ? `<br><span style="color:#ff6b6b;">Target: ${report.targetUser}</span>` : ''}
+                                <br><span style="color:#888;font-size:0.85rem">${new Date(report.timestamp).toLocaleString('id-ID')}</span>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="color:${statusColor};font-weight:700;font-size:0.95rem;padding:4px 12px;background:rgba(255,255,255,0.1);border-radius:12px;">${report.status?.toUpperCase()}</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;padding:12px;background:rgba(255,255,255,0.05);border-radius:12px;font-size:0.88rem;color:#ccc;">
+                            ${report.description.substring(0, 150)}${report.description.length > 150 ? '...' : ''}
+                        </div>
+                        ${report.status === 'pending' ? `
+                            <div style="margin-top:16px;gap:10px;display:flex;flex-wrap:wrap;">
+                                <button class="btn" onclick="processReport(${report.id},'processed')" style="padding:12px 18px;font-size:0.9rem;flex:1;min-width:90px;">✅ Proses</button>
+                                <button class="btn btn-secondary" onclick="processReport(${report.id},'rejected')" style="padding:12px 18px;font-size:0.9rem;flex:1;min-width:90px;">❌ Tolak</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            document.getElementById('reportList').innerHTML = html;
+        }
+
+        function loadStats() {
+            const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+            const tickets = JSON.parse(localStorage.getItem('appealTickets') || '[]');
+            const reports = JSON.parse(localStorage.getItem('userReports') || '[]');
+            const chats = JSON.parse(localStorage.getItem('globalChat') || '[]');
+            const updates = JSON.parse(localStorage.getItem('infoUpdates') || '[]');
+            
+            const today = new Date().toDateString();
+            const todayUsers = allUsers.filter(u => new Date(u.joinDate).toDateString() === today).length;
+            
+            document.getElementById('statsContent').innerHTML = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+<div class="stat-number">${allUsers.length}</div>
+                        <div style="color:#888;font-size:0.95rem;">Total Pengguna</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${todayUsers}</div>
+                        <div style="color:#888;font-size:0.95rem;">Pendaftar Hari Ini</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${tickets.filter(t => t.status === 'pending').length}</div>
+                        <div style="color:#888;font-size:0.95rem;">Tiket Pending</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${reports.length}</div>
+                        <div style="color:#888;font-size:0.95rem;">Total Report</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${chats.length}</div>
+                        <div style="color:#888;font-size:0.95rem;">Pesan Chat</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${updates.length}</div>
+                        <div style="color:#888;font-size:0.95rem;">Info Update</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function processTicket(ticketId, status) {
+            let tickets = JSON.parse(localStorage.getItem('appealTickets') || '[]');
+            const ticketIndex = tickets.findIndex(t => t.id === ticketId);
+            
+            if (ticketIndex !== -1) {
+                tickets[ticketIndex].status = status;
+                localStorage.setItem('appealTickets', JSON.stringify(tickets));
+                loadTickets();
+                showNotification('Tiket Diproses', `Tiket #${ticketId} ${status}`);
+            }
+        }
+
+        function processReport(reportId, status) {
+            let reports = JSON.parse(localStorage.getItem('userReports') || '[]');
+            const reportIndex = reports.findIndex(r => r.id === reportId);
+            
+            if (reportIndex !== -1) {
+                reports[reportIndex].status = status;
+                localStorage.setItem('userReports', JSON.stringify(reports));
+                loadReports();
+                showNotification('Report Diproses', `Report #${reportId} ${status}`);
+            }
+        }
+
+        function deleteUser(username) {
+            if (confirm(`Yakin hapus akun ${username} permanen?`)) {
+                let allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+                allUsers = allUsers.filter(u => u.username !== username);
+                localStorage.setItem('allUsers', JSON.stringify(allUsers));
+                
+                if (currentUser && currentUser.username === username) {
+                    logout();
+                } else {
+                    loadUsers();
+                    updateDashboardStats();
+                    showNotification('User Dihapus', `${username} dihapus permanen`);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
